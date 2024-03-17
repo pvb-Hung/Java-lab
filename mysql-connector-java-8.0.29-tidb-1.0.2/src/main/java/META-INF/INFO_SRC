@@ -1,0 +1,5 @@
+version: 8.0.29-tidb-1.0.2
+branch: release/8.0-prepare-reset
+date: 2022-10-11 13:05:56 +0800
+commit: 8900a1fc5c62093836c1b18fd1733172f6179b68
+short: 8900a1fc

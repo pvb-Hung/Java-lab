@@ -1,0 +1,14 @@
+INDEX VERSION 1.4+D:\Java\java-thayHieu\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2013180688.index
+860282897.index
+1328089785.index
+2600231806.index
+4267871393.index
+904698079.index
+4285206533.index
+3842560440.index
+2131822481.index
+106250742.index
+1608239711.index
+2679503833.index
+539360909.index

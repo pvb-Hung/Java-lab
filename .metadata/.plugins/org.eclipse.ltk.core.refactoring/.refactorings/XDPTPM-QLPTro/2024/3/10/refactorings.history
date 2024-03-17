@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;vnua.fita.motelroom.ultil&apos; to &apos;vnua.fita.motelroom.util&apos;&#x0D;&#x0A;- Original project: &apos;XDPTPM-QLPTro&apos;&#x0D;&#x0A;- Original element: &apos;XDPTPM-QLPTro/src/main/java/vnua.fita.motelroom.ultil&apos;&#x0D;&#x0A;- Renamed element: &apos;XDPTPM-QLPTro/src/main/java/vnua.fita.motelroom.util&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;vnua.fita.motelroom.ultil&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src\/main\/java&lt;vnua.fita.motelroom.ultil" name="vnua.fita.motelroom.util" qualified="false" references="true" stamp="1709945802848" textual="false" version="1.0"/>
+</session>
