@@ -41,4 +41,5 @@ public class Constant {
 	public static final String VALUE_INVALID_VALIDATE_MSG="Lỗi order status";
 	public static final String UPDATE_ORDER_SUCCESS="Cập nhật đơn hàng thành công";
 	public static final String UPDATE_ORDER_FAIL="Cập nhật đơn hàng thất bại";
+	public static final String VNPAY_PAYMENT_MODE = "vnpay";
 }

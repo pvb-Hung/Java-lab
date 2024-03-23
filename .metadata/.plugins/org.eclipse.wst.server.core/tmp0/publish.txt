@@ -1,2 +1,5 @@
 #Tomcat publish data
-#Sat Mar 16 12:05:59 ICT 2024
+#Sat Mar 23 11:24:39 ICT 2024
+org.eclipse.jst.j2ee.server\:mysql-connector-java-8.0.29-tidb-1.0.2=WEB-INF/lib/mysql-connector-java-8.0.29-tidb-1.0.2.jar
+org.eclipse.jst.j2ee.server\:taglibs-standard-impl-1.2.5=WEB-INF/lib/taglibs-standard-impl-1.2.5.jar
+org.eclipse.jst.j2ee.server\:taglibs-standard-spec-1.2.5=WEB-INF/lib/taglibs-standard-spec-1.2.5.jar

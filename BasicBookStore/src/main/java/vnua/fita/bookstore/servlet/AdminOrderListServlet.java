@@ -54,41 +54,40 @@ public class AdminOrderListServlet extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<String> errors=new ArrayList<String>();
-		String orderIdStr=req.getParameter("orderId");
-		String confirmTypeStr=req.getParameter("confirmType");
-		int orderId=-1;
-		try {
-			orderId=Integer.parseInt(orderIdStr);
-		} catch (Exception e) {
-			// TODO: handle exception
-			errors.add(Constant.ORDER_ID_INVALID_VALIDATE_MSG);
-		}
-		byte confirmType=-1;
-		try {
-			confirmType=Byte.parseByte(confirmTypeStr);
-		} catch (Exception e) {
-			// TODO: handle exception
-			errors.add(Constant.VALUE_INVALID_VALIDATE_MSG);
-		}
-		if(errors.isEmpty()) {
-			boolean updateResult=false;
-			if(Constant.DELEVERING_ORDER_STATUS==confirmType) {
-				updateResult=orderDAO.updateOrderNo(orderId,confirmType);
-			}else if(Constant.DELEVERED_ORDER_STATUS==confirmType) {
-				updateResult=orderDAO.updateOrder(orderId,confirmType);
-			}else if(Constant.REJECT_ORDER_STATUS==confirmType) {
-				updateResult=orderDAO.updateOrder(orderId,confirmType);
-			}
-			if(updateResult) {
-				req.setAttribute("message", Constant.UPDATE_ORDER_SUCCESS);
-			}else {
-				errors.add(Constant.UPDATE_ORDER_FAIL);
-			}
-			if(!errors.isEmpty()) {
-				req.setAttribute("errors", String.join(", ", errors));
-			}
-			doGet(req, resp);
-		}
+	    List<String> errors = new ArrayList<String>();
+	    String orderIdStr = req.getParameter("orderId");
+	    String confirmTypeStr = req.getParameter("confirmType");
+	    int orderId = -1;
+	    try {
+	        orderId = Integer.parseInt(orderIdStr);
+	    } catch (Exception e) {
+	        errors.add(Constant.ORDER_ID_INVALID_VALIDATE_MSG);
+	    }
+	    byte confirmType = -1;
+	    try {
+	        confirmType = Byte.parseByte(confirmTypeStr);
+	    } catch (Exception e) {
+	        errors.add(Constant.VALUE_INVALID_VALIDATE_MSG);
+	    }
+	    if (errors.isEmpty()) {
+	        boolean updateResult = false;
+	        if (Constant.DELEVERING_ORDER_STATUS == confirmType) {
+	            updateResult = orderDAO.updateOrderNo(orderId, confirmType);
+	        } else if (Constant.DELEVERED_ORDER_STATUS == confirmType) {
+	            updateResult = orderDAO.updateOrder(orderId, confirmType);
+	        } else if (Constant.REJECT_ORDER_STATUS == confirmType) {
+	            // Xử lý trả hàng: Gọi phương thức của lớp DAO để cập nhật trạng thái đơn hàng
+	            updateResult = orderDAO.rejectOrder(orderId);
+	        }
+	        if (updateResult) {
+	            req.setAttribute("message", Constant.UPDATE_ORDER_SUCCESS);
+	        } else {
+	            errors.add(Constant.UPDATE_ORDER_FAIL);
+	        }
+	        if (!errors.isEmpty()) {
+	            req.setAttribute("errors", String.join(", ", errors));
+	        }
+	        doGet(req, resp);
+	    }
 	}
 }

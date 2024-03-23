@@ -20,8 +20,6 @@ import vnua.fita.bookstore.bean.User;
 import vnua.fita.bookstore.util.Constant;
 import vnua.fita.bookstore.util.MyUtil;
 
-
-//xử lý về phía hóa đơn(lấy danh sách, cập nhập sóo lượng,...)
 public class OrderDAO {
 	private String jdbcURL;
 	private String jdbcUsername;
@@ -130,6 +128,16 @@ public class OrderDAO {
 					}
 				}
 				if ("transfer".equals(order.getPaymentMode())) {
+					preStatement = jdbcConnection.prepareStatement(sql3);
+					orderNo = MyUtil.createOrderNo(orderId);
+					preStatement.setString(1, orderNo);
+					preStatement.setInt(2, orderId);
+					insertResult = preStatement.executeUpdate() > 0;
+					if (!insertResult) {
+						throw new SQLException();
+					}
+				}
+				if ("vnpay".equals(order.getPaymentMode())) {
 					preStatement = jdbcConnection.prepareStatement(sql3);
 					orderNo = MyUtil.createOrderNo(orderId);
 					preStatement.setString(1, orderNo);
@@ -354,4 +362,45 @@ public class OrderDAO {
 		}
 		return updateResult;
 	}
+	
+	public boolean rejectOrder(int orderId) {
+	    boolean updateResult = false;
+	    String sqlUpdateOrder = "UPDATE tblorder SET order_status = ?, status_date = ? WHERE order_id = ?";
+	    String sqlSelectOrderBooks = "SELECT book_id, quantity FROM tblorder_book WHERE order_id = ?";
+	    String sqlUpdateBookQuantity = "UPDATE tblbook SET quantity_in_stock = quantity_in_stock + ? WHERE book_id = ?";
+	    
+	    jdbcConnection = DBConnection.createConnection(jdbcURL, jdbcUsername, jdbcPassword);
+	    Date now = new Date();
+	    try {
+	        // Cập nhật trạng thái của đơn hàng thành "Đã từ chối"
+	        preStatement = jdbcConnection.prepareStatement(sqlUpdateOrder);
+	        preStatement.setByte(1, Constant.REJECT_ORDER_STATUS);
+	        preStatement.setString(2, MyUtil.convertDateToString(now));
+	        preStatement.setInt(3, orderId);
+	        updateResult = preStatement.executeUpdate() > 0;
+
+	        // Lấy danh sách các cuốn sách trong đơn hàng
+	        preStatement = jdbcConnection.prepareStatement(sqlSelectOrderBooks);
+	        preStatement.setInt(1, orderId);
+	        resultSet = preStatement.executeQuery();
+	        
+	        // Duyệt qua từng cuốn sách và cộng lại số lượng vào kho
+	        while (resultSet.next()) {
+	            int bookId = resultSet.getInt("book_id");
+	            int quantity = resultSet.getInt("quantity");
+	            preStatement = jdbcConnection.prepareStatement(sqlUpdateBookQuantity);
+	            preStatement.setInt(1, quantity);
+	            preStatement.setInt(2, bookId);
+	            preStatement.executeUpdate();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBConnection.closeResultSet(resultSet);
+	        DBConnection.closePreparedStatement(preStatement);
+	        DBConnection.closeConnect(jdbcConnection);
+	    }
+	    return updateResult;
+	}
+
 }

@@ -70,6 +70,7 @@
 		<p style="color: red;">${errors}</p>
 		<form action="${pageContext.request.contextPath }/order" method="post"
 			enctype="multipart/form-data">
+			<input value="${cartOfCustomer.totalCost }" name="amount" hidden>
 			<table border="1">
 				<tr>
 					<th align="left">Tài khoản</th>
@@ -107,28 +108,24 @@
 							thoại đăng ký tài khoản) - thanh toán đơn hàng <br>
 							&ensp;mẫu 2: (Tên tài khoản đăng ký) - thanh toán đơn hàng <br>
 							Sau đó chụp ảnh màn hình kết quả chuyển khoản hoặc chụp ảnh phiếu
-							xác nhận từ cây ATM <br>
-							<br> &ensp;Tên chủ tài khoản:.................. <br>
-							&ensp;Số tài khoản :.................. <br> &ensp;Chi nhánh
-							ngân hàng................. <br>
-							<br> <b>Chọn ảnh kết quả chuyển khoản:</b> <img alt=""
-								src="" id="bookImage" width="150">&nbsp; <input
-								type="file" name="file" accept="image/*"
+							xác nhận từ cây ATM <br> <br> &ensp;Tên chủ tài
+							khoản:.................. <br> &ensp;Số tài khoản
+							:.................. <br> &ensp;Chi nhánh ngân
+							hàng................. <br> <br> <b>Chọn ảnh kết quả
+								chuyển khoản:</b> <img alt="" src="" id="bookImage" width="150">&nbsp;
+							<input type="file" name="file" accept="image/*"
 								onchange="loadImage(event)" />
-						</div></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><c:choose>
-							<c:when test="${not empty cartOfCustomer.cartItemList}">
-								<input type="submit" value="Đặt mua" />
-							</c:when>
-							<c:otherwise>
-								<input type="submit" value="Đặt mua" disabled="disabled" />
-							</c:otherwise>
-						</c:choose></td>
-				</tr>
+						</div> <input type="radio" name="paymentMode" value="vnpay"
+						onclick="document.getElementById('uploadDiv').style.display='none';" />
+						Thanh toán qua VNPay</td>
 
+				</tr>
+				<c:if test="${cartOfCustomer.cartItemList.size()>0 }">
+					<tr>
+						<td></td>
+						<td><input type="submit" value="Đặt mua" /></td>
+					</tr>
+				</c:if>
 			</table>
 		</form>
 	</div>
